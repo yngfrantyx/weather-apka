@@ -5,7 +5,8 @@
   <div style="text-align: center;margin: 15px;">
     <ion-label style="font-weight: 400; font-size: 1.5em;">Weather Forecast</ion-label>
   </div>
-  <ion-searchbar [(ngModel)]="cityName" (ngModelChange)="loadData()" placeholder="Search for city" class="searchBar"
+  <ion-searchbar [debounce]="1000" [(ngModel)]="cityName" (ngModelChange)="loadData()" placeholder="Search for city"
+                 class="searchBar"
                  animated></ion-searchbar>
 
   <div *ngIf="!loading">
