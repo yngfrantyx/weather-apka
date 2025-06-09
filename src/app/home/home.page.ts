@@ -1,10 +1,6 @@
 import {Component} from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {WeatherService} from '../services/weather.service';
 import {ToastController} from '@ionic/angular';
-
-const API_URL = environment.API_URL;
-const API_KEY = environment.API_KEY;
 
 @Component({
   selector: 'app-home',
@@ -22,22 +18,21 @@ export class HomePage {
   loading = true;
 
   constructor(
-    public httpClient: HttpClient,
+    private weatherService: WeatherService,
     private toastController: ToastController
   ) {
   }
 
   loadData() {
-    this.httpClient.get<any>(`${API_URL}/weather?q=${this.cityName}&appid=${API_KEY}`).subscribe(results => {
+    this.loading = true;
+    this.weatherService.loadData(this.cityName).subscribe(results => {
       this.weatherTemp = results['main'];
       this.name = results['name'];
       this.weatherDetails = results['weather'][0];
       this.weatherIcon = `https://openweathermap.org/img/wn/${this.weatherDetails.icon}@4x.png`;
       this.loading = false;
     }, error => {
-
-
-
+      this.loading = false;
       this.toastController.create({
         message: 'Failed to load data. Check the city name.',
         duration: 2000,
