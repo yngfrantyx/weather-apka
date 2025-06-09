@@ -23,22 +23,19 @@ export class HomePage {
 
   constructor(
     public httpClient: HttpClient,
-    private toastController: ToastController // ⬅️ ToastController v konstruktoru
+    private toastController: ToastController
   ) {
   }
 
   loadData() {
     this.httpClient.get<any>(`${API_URL}/weather?q=${this.cityName}&appid=${API_KEY}`).subscribe(results => {
-      console.log(results);
       this.weatherTemp = results['main'];
       this.name = results['name'];
-      console.log(this.weatherTemp);
       this.weatherDetails = results['weather'][0];
-      console.log(this.weatherDetails);
       this.weatherIcon = `https://openweathermap.org/img/wn/${this.weatherDetails.icon}@4x.png`;
       this.loading = false;
     }, error => {
-      console.log(error);
+
 
 
       this.toastController.create({
